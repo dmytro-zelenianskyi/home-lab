@@ -1,22 +1,28 @@
-project: default
-source:
-  repoURL: https://charts.jenkins.io/
-  targetRevision: 5.8.3
-  helm:
-    valueFiles:
-      - values.yaml
-    values: |-
-      {
-        "controller.admin.password":"root",
-        "controller.serviceType":"NodePort"
-      }
-  chart: jenkins
-destination:
-  server: https://kubernetes.default.svc
-  namespace: jenkins
-syncPolicy:
-  automated:
-    prune: true
-    selfHeal: true
-  syncOptions:
-    - PruneLast=true
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: jenkins
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://charts.jenkins.io/
+    targetRevision: 5.8.3
+    helm:
+      valueFiles:
+        - values.yaml
+      values: |-
+        {
+          "controller.admin.password":"root",
+          "controller.serviceType":"NodePort"
+        }
+    chart: jenkins
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: jenkins
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - PruneLast=true
