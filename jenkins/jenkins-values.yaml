@@ -1,0 +1,5 @@
+controller:
+  serviceType: ClusterIP
+  agent:
+    enabled: true
+    replicas: 2
